@@ -46,22 +46,44 @@ const serverHandle = (req, res) =>{
     getPostData(req).then(postData => {
         req.body = postData
         // 处理blog路由
-        const blogData = hangleBlogRouter(req, res)
-        if(blogData){
-            res.end(
-                JSON.stringify(blogData)
-            )
+
+        // const blogData = hangleBlogRouter(req, res)
+        // if(blogData){
+        //     res.end(
+        //         JSON.stringify(blogData)
+        //     )
+        //     return
+        // }
+
+        const blogResult = hangleBlogRouter(req, res)
+        if(blogResult){
+            blogResult.then(blogData => {
+                res.end(
+                    JSON.stringify(blogData)
+                )
+            });
             return
         }
 
         // 处理user路由
-        const userData = hangleUserRouter(req, res)
-        if(userData){
-            res.end(
-                JSON.stringify(userData)
-            )
+        // const userData = hangleUserRouter(req, res)
+        // if(userData){
+        //     res.end(
+        //         JSON.stringify(userData)
+        //     )
+        //     return
+        // }
+
+        const userResult = hangleUserRouter(req, res)
+        if(userResult){
+            userResult.then(userData => {
+                res.end(
+                    JSON.stringify(userData)
+                )
+            })
             return
         }
+
         // 处理未命中 返回404
         res.writeHead(404, {"content-type" : "text/plain"})
         res.write("404 Not Found\n")

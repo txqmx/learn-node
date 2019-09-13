@@ -8,41 +8,59 @@ const handleBlogRouter = (req, res) => {
     if(method === 'GET' && req.path === '/api/blog/list'){
         const author = req.query.author || ''
         const keyword = req.query.keyword || ''
-        const listData = getList(author, keyword)
-        return new SuccessModel(listData)
+        // const listData = getList(author, keyword)
+        // return new SuccessModel(listData)
+
+        const result = getList(author, keyword)
+        return result.then( listDate => {
+            return new SuccessModel(listDate)
+        })
     }
 
     // 获取博客详情
     if(method === 'GET' && req.path === '/api/blog/detail'){
-        const data = getDetail(id)
-        return new SuccessModel(data)
+        // const data = getDetail(id)
+        // return new SuccessModel(data)
+        const result = getDetail(id)
+        return result.then(data => {
+            return new SuccessModel(data)
+        })
     }
 
     // 新建一篇博客
     if(method === 'POST' && req.path === '/api/blog/new'){
-        const blogData = req.body
-        const data = newBlog(blogData)
-        return new SuccessModel(data)
+        // const data = newBlog(blogData)
+        // return new SuccessModel(data)
+        req.body.author = 'zhangsan'
+        const result = newBlog(req.body)
+        return result.then(data => {
+            return new SuccessModel(data)
+        })
     }
 
     // 更新一篇博客
     if(method === 'POST' && req.path === '/api/blog/update'){
         const result = updateBlog(id, req.body)
-        if(result){
-            return new SuccessModel()
-        } else {
-            return new ErrorModel('更新博客失败')
-        }
+        return result.then(val => {
+            if(val){
+                return new SuccessModel()
+            } else {
+                return new ErrorModel('更新博客失败')
+            }
+        })
     }
 
     // 删除一篇博客
     if(method === 'POST' && req.path === '/api/blog/del'){
-        const result = delBlog(id)
-        if(result){
-            return new SuccessModel()
-        }else {
-            return new ErrorModel('删除失败')
-        }
+        const result = delBlog(id, 'zhangsan')
+        return result.then(val => {
+            if(val){
+                return new SuccessModel()
+            }else {
+                return new ErrorModel('删除失败')
+            }
+        })
+
     }
 }
 
