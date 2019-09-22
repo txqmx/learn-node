@@ -38,7 +38,6 @@ router.get('/detail', function(req, res, next) {
             new SuccessModel(data)
         );
     })
-
 });
 router.post('/new', loginCheck, function(req, res, next) {
     req.body.author = req.session.username
