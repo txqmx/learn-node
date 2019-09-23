@@ -1,0 +1,15 @@
+{
+  "apps": {
+    "name": "pm2-test-server",
+    "script": "index.js",
+    "watch": true, // 自动重启
+    "ignore_modules": [
+      "node_modules",
+      "logs"
+    ],
+    "instances": 4, // 多进程
+    "error_file": "logs/err.log",
+    "out_file": "logs/out.log",
+    "log_date_format": "YYYY-MM-DD HH:mm:ss"
+  }
+}
